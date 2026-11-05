@@ -3,6 +3,7 @@ import Img from '@/components/Img';
 import Lightbox from '@/components/Lightbox';
 import PageHeader from '@/components/PageHeader';
 import { galleryGroups, media } from '@/data/media';
+import { getLocale } from '@/lib/locale';
 
 const ALL = 'all';
 
@@ -29,7 +30,7 @@ export default function GalleryPage() {
         eyebrow="Gallery"
         title="Inside"
         accent="Archontiko Tsikari"
-        lead={`${total} photos of the mansion, the studios and the island around it.`}
+        lead={getLocale() === 'el' ? `${total} φωτογραφίες του αρχοντικού, των στούντιο και της Λήμνου.` : `${total} photos of the mansion, the studios and the island around it.`}
         photo={media.exterior[0]}
         alt="Archontiko Tsikari exterior"
       />

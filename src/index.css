@@ -479,3 +479,177 @@ img {max-width:100%}
 @media (prefers-reduced-motion:reduce) {
  .ge-hero__photo,.ge-gallery__image img,.ge-room__picture img {transition:none!important}
 }
+
+
+/* Bilingual editorial refinements — maintain contrast and usable touch targets */
+html[lang="el"] {
+  --ge-serif: "Noto Serif", Georgia, serif;
+}
+html[lang="el"] body,
+html[lang="el"] .font-serif,
+html[lang="el"] .ge-room__details h3 {
+  font-family: "Noto Serif", Georgia, serif;
+}
+html[lang="el"] .ge-hero__title {
+  font-size: clamp(62px, 9.5vw, 140px);
+  letter-spacing: -.055em;
+  line-height: 1.1;
+}
+html[lang="el"] .ge-hero__title span+span { margin-top: .1em; }
+html[lang="el"] .ge-hero__subtitle {
+  line-height: 1.55;
+  max-width: 850px;
+}
+html[lang="el"] .ge-navpanel__content nav a strong { font-size: clamp(27px, 3.7vw, 53px); }
+html[lang="el"] .ge-availability__field > span { letter-spacing: .08em; }
+html[lang="el"] .ge-availability__submit { letter-spacing: .05em; }
+html[lang="el"] .ge-intro h2,
+html[lang="el"] .ge-rooms h2,
+html[lang="el"] .ge-experience h2,
+html[lang="el"] .ge-amenities h2,
+html[lang="el"] .ge-island h2,
+html[lang="el"] .ge-gallery h2,
+html[lang="el"] .ge-finalcta h2 { 
+  font-size: clamp(42px, 6vw, 88px); 
+  line-height: 1.2; 
+  letter-spacing: -.04em; 
+}
+html[lang="el"] .ge-room__details h3 { font-size: clamp(22px, 2.3vw, 35px); }
+.ge-nav__right { gap: 18px; }
+.ts-languages {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 11px/1.2 var(--ge-sans);
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+.ts-languages button {
+  position: relative;
+  min-height: 44px;
+  min-width: 30px;
+  transition: opacity .2s ease;
+  opacity: .55;
+}
+.ts-languages button:hover,
+.ts-languages button[aria-current="true"] { opacity: 1; }
+.ts-languages button[aria-current="true"]::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+}
+.ts-languages > span { opacity: .4; }
+.ts-wa {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 52;
+  min-width: 62px;
+  height: 62px;
+  padding: 0 18px;
+  border-radius: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  background: #20b86b;
+  color: white;
+  box-shadow: 0 8px 28px rgba(17, 56, 35, .23);
+  font: 600 12px/1 var(--ge-sans);
+  letter-spacing: .02em;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.ts-wa:hover {
+  background: #138953;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 35px rgba(17, 56, 35, .3);
+}
+.ts-wa:focus-visible,
+.ts-languages button:focus-visible {
+  outline: 3px solid #e2b17b;
+  outline-offset: 4px;
+}
+.ts-route-loading {
+  display: grid;
+  min-height: 70svh;
+  place-items: center;
+  background: var(--ge-paper);
+  color: var(--ge-olive);
+  font: 400 24px var(--ge-serif);
+  letter-spacing: .2em;
+}
+.ge-hero__photo {
+  filter: brightness(.98) saturate(1.06) contrast(1.045);
+  object-position: center 46%;
+}
+.ge-hero__veil {
+  background: linear-gradient(180deg, rgba(17,21,18,.38) 0%, rgba(17,21,18,0) 32%, rgba(17,21,18,.09) 53%, rgba(17,21,18,.70) 100%),
+              linear-gradient(90deg, rgba(20,23,20,.07), transparent 62%);
+}
+.ge-pagehero__image,
+.ge-island__image img,
+.ge-finalcta > img {
+  filter: saturate(1.05) contrast(1.05);
+}
+.ge-pagehero__veil {
+  background: linear-gradient(0deg, rgba(22,27,22,.73), rgba(22,27,22,.04) 68%, rgba(22,27,22,.31));
+}
+.ge-room__picture img,
+.ge-gallery__image img,
+.ge-experience__photowrap img,
+.ge-intro__photomain img {
+  image-rendering: auto;
+  object-fit: cover;
+  filter: contrast(1.035) saturate(1.045);
+}
+.ge-availability:focus-within {
+  border-color: rgba(255,255,255,.8);
+}
+.ge-availability input:focus-visible,
+.ge-availability select:focus-visible {
+  outline: 2px solid #e8d0a8;
+  outline-offset: 5px;
+}
+.ge-experience__tabs button:focus-visible { outline: 2px solid #e8d0a8; outline-offset: 4px; }
+.ge-gallery__image:focus-visible .ge-gallery__image > span { opacity: 1; }
+/* Content-visibility keeps long editorial content from delaying first paint. */
+.ge-intro, .ge-rooms, .ge-experience, .ge-amenities, .ge-island, .ge-gallery, .ge-finalcta {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+.ge-gallery__image img,
+.ge-room__picture img { will-change: auto; }
+@media(max-width: 750px) {
+  .ts-wa { width: 57px; min-width:57px; height:57px; padding:0; right:16px; bottom:calc(17px + env(safe-area-inset-bottom)); }
+  .ts-wa__label { display:none; }
+  .ts-languages { gap: 2px; font-size:10px; }
+  .ts-languages button { min-width:26px; }
+  .ge-nav__right { gap:9px; }
+  html[lang="el"] .ge-hero__title { font-size:clamp(48px, 10vw, 80px); line-height:1.1; }
+  html[lang="el"] .ge-hero__subtitle { font-size:19px; }
+  html[lang="el"] .ge-hero__chapter { font-size:7px; gap:7px; }
+  html[lang="el"] .ge-hero__pretitle { font-size:8px; }
+  html[lang="el"] .ge-hero__booking-head {font-size:7px;}
+  html[lang="el"] .ge-availability__field > span { font-size:7px; }
+  html[lang="el"] .ge-navpanel__content nav a strong { font-size:clamp(26px, 9vw, 40px); }
+  html[lang="el"] .ge-intro h2,
+  html[lang="el"] .ge-rooms h2,
+  html[lang="el"] .ge-experience h2,
+  html[lang="el"] .ge-amenities h2,
+  html[lang="el"] .ge-island h2,
+  html[lang="el"] .ge-gallery h2,
+  html[lang="el"] .ge-finalcta h2 { font-size:clamp(34px, 9vw, 54px); }
+}
+@media (max-width: 380px) {
+  .ge-nav__wordmark span:last-child { font-size:20px; }
+  .ge-nav__book { padding:10px 7px; }
+  .ts-languages {gap:0}
+  .ts-languages button {min-width:24px}
+}
+@media (prefers-reduced-motion: reduce) {
+  .ts-wa:hover { transform:none; }
+}

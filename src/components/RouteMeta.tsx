@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import type { Route } from '@/lib/router';
+import { getLocale } from '@/lib/locale';
 
 const descriptions: Record<Route, { title: string; description: string }> = {
   home: {
@@ -32,10 +33,21 @@ const descriptions: Record<Route, { title: string; description: string }> = {
   },
 };
 
+const greekMeta: Record<Route, {title:string;description:string}> = {
+  home: {title:'Αρχοντικό Τσικάρη | Παραδοσιακή Διαμονή στο Βάρος Λήμνου',description:'Πέντε άνετα στούντιο σε ένα ανακαινισμένο αρχοντικό του 1901 στο Βάρος Λήμνου, με προσωπική φιλοξενία.'},
+  about:{title:'Η ιστορία μας | Αρχοντικό Τσικάρη, Λήμνος',description:'Γνωρίστε την ιστορία του αρχοντικού Τσικάρη, χτισμένου το 1901, και τη ζεστή οικογενειακή φιλοξενία στη Λήμνο.'},
+  rooms:{title:'Στούντιο και Διαμονή | Αρχοντικό Τσικάρη',description:'Ανακαλύψτε πέντε στούντιο για 2 έως 4 άτομα, με κουζινάκι και κρεβάτια COCO-MAT στη Λήμνο.'},
+  gallery:{title:'Φωτογραφίες | Αρχοντικό Τσικάρη, Λήμνος',description:'Φωτογραφίες από το ιστορικό αρχοντικό, τα στούντιο και το νησί της Λήμνου.'},
+  'how-to-get-here':{title:'Πρόσβαση στο Βάρος Λήμνου | Αρχοντικό Τσικάρη',description:'Οδηγίες για να φτάσετε στο Αρχοντικό Τσικάρη με πλοίο, αεροπλάνο ή αυτοκίνητο.'},
+  contact:{title:'Επικοινωνία | Αρχοντικό Τσικάρη, Λήμνος',description:'Επικοινωνήστε με το Αρχοντικό Τσικάρη στο Βάρος Λήμνου για πληροφορίες και διαμονή.'},
+  booking:{title:'Αίτημα Διαθεσιμότητας | Αρχοντικό Τσικάρη',description:'Στείλτε τις ημερομηνίες σας για άμεση ενημέρωση διαθεσιμότητας και τιμών στο Αρχοντικό Τσικάρη.'},
+};
+
 export default function RouteMeta({ route }: { route: Route }) {
   useEffect(() => {
-    const page = descriptions[route];
+    const page = getLocale() === "el" ? greekMeta[route] : descriptions[route];
     document.title = page.title;
+    document.documentElement.lang = getLocale();
     const update = (selector: string, value: string) => {
       const meta = document.querySelector<HTMLMetaElement>(selector);
       if (meta) meta.content = value;

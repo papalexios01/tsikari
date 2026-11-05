@@ -4,8 +4,10 @@ import Img from '@/components/Img';
 import { navLinks, contact, tel } from '@/data/content';
 import { media } from '@/data/media';
 import { href, type Route } from '@/lib/router';
+import { chooseLocale, getLocale } from '@/lib/locale';
 
 export default function Navbar({ route }: { route: Route }) {
+  const language = getLocale();
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -64,6 +66,11 @@ export default function Navbar({ route }: { route: Route }) {
           <span>ARCHONTIKO</span><span>TSIKARI</span>
         </a>
         <div className="ge-nav__right">
+          <div className="ts-languages" role="group" aria-label="Language / Γλώσσα">
+            <button type="button" onClick={() => chooseLocale("en")} aria-current={language === "en" ? "true" : undefined} aria-label="English" lang="en">EN</button>
+            <span aria-hidden="true">/</span>
+            <button type="button" onClick={() => chooseLocale("el")} aria-current={language === "el" ? "true" : undefined} aria-label="Ελληνικά" lang="el">ΕΛ</button>
+          </div>
           <span className="ge-nav__location">VAROS, LEMNOS</span>
           <a className="ge-nav__book" href={href('booking')} onClick={() => setOpen(false)}>
             <span>BOOK A STAY</span><ArrowUpRight size={15} strokeWidth={1.5} aria-hidden="true" />
