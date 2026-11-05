@@ -22,11 +22,11 @@ export function useRoute() {
   }, []);
 
   useEffect(() => {
-    if (state.anchor) {
-      requestAnimationFrame(() => document.getElementById(state.anchor)?.scrollIntoView({ behavior: 'smooth' }));
-    } else {
-      window.scrollTo({ top: 0 });
-    }
+    requestAnimationFrame(() => {
+      const target = state.anchor && document.getElementById(state.anchor);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      else window.scrollTo({ top: 0 });
+    });
   }, [state]);
 
   return state;

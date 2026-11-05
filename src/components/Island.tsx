@@ -18,11 +18,11 @@ export default function Island() {
   const [hover, setHover] = useState(0);
 
   return (
-    <section id="island" ref={ref} className="bg-sand-50 py-24 lg:py-36">
+    <section id="island" ref={ref} className="bg-sand-100 py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="max-w-3xl">
-          <p className="eyebrow reveal text-aegean-500">Lemnos Island</p>
-          <h2 className="reveal mt-6 text-4xl text-ink-900 sm:text-5xl lg:text-6xl">
+          <p className="section-num reveal text-aegean-500">05 &nbsp;/&nbsp; Lemnos Island</p>
+          <h2 className="reveal mt-8 text-5xl text-ink-900 sm:text-6xl lg:text-7xl">
             The whole island, <em className="text-aegean-500">twenty minutes away</em>
           </h2>
           <p className="reveal mt-6 text-ink-500">
@@ -32,7 +32,7 @@ export default function Island() {
 
         <div className="reveal mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
           {travel.map(({ icon: Icon, label, value }) => (
-            <div key={label} className="flex items-center gap-4 rounded-2xl bg-aegean-100/60 p-5">
+            <div key={label} className="flex items-center gap-4 rounded-2xl bg-sand-50 p-5">
               <Icon className="h-5 w-5 shrink-0 text-aegean-500" strokeWidth={1.5} />
               <div>
                 <p className="font-serif text-2xl text-ink-900">{value}</p>
@@ -43,7 +43,7 @@ export default function Island() {
         </div>
 
         <div className="mt-16 grid gap-12 lg:grid-cols-2">
-          <ol className="reveal divide-y divide-sand-200 border-y border-sand-200">
+          <ol className="reveal divide-y divide-sand-300 border-y border-sand-300">
             {places.map((p, i) => (
               <li
                 key={p.name}

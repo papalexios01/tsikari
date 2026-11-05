@@ -21,7 +21,7 @@ export default function App() {
     gallery: <GalleryPage />,
     'how-to-get-here': <HowToGetHere />,
     contact: <Contact />,
-    booking: <Booking room={anchor} />,
+    booking: <Booking anchor={anchor} />,
   }[route];
 
   return (

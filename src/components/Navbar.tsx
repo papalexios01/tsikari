@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Menu, Phone, X } from 'lucide-react';
+import { ArrowUpRight, Menu, Phone, X } from 'lucide-react';
 import { contact, navLinks, tel } from '@/data/content';
 import { media } from '@/data/media';
 import { href, type Route } from '@/lib/router';
@@ -31,28 +31,30 @@ export default function Navbar({ route }: Props) {
   const solid = scrolled || open;
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        solid ? 'bg-sand-50/90 py-3 shadow-[0_1px_0_rgba(38,36,31,0.08)] backdrop-blur-xl' : 'py-6'
-      }`}
-    >
-      <span
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-px origin-left bg-clay-500 transition-transform duration-150"
-        style={{ transform: `scaleX(${progress})` }}
-      />
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 lg:px-10">
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${solid ? 'px-3 pt-3' : 'px-2 pt-2 sm:px-3 sm:pt-3'}`}>
+      <div
+        className={`relative mx-auto flex items-center justify-between gap-6 overflow-hidden transition-all duration-500 ${
+          solid
+            ? 'max-w-6xl rounded-full bg-sand-50/90 py-2 pl-5 pr-2 shadow-[0_12px_40px_-16px_rgba(23,22,19,0.35)] ring-1 ring-ink-900/5 backdrop-blur-xl sm:pl-7'
+            : 'max-w-7xl px-4 py-5 sm:px-8 lg:px-10'
+        }`}
+      >
+        <span
+          aria-hidden
+          className={`absolute inset-x-0 bottom-0 h-0.5 origin-left bg-clay-500 transition-opacity ${solid ? 'opacity-100' : 'opacity-0'}`}
+          style={{ transform: `scaleX(${progress})` }}
+        />
         <a href={href('home')} className="flex shrink-0 items-center" aria-label="Archontiko Tsikari home">
           <img
             src={media.logo}
             alt="Archontiko Tsikari"
             width={300}
             height={100}
-            className={`h-11 w-auto transition-all duration-500 sm:h-12 ${solid ? 'brightness-0' : 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]'}`}
+            className={`w-auto transition-all duration-500 ${solid ? 'h-10 brightness-0' : 'h-12 drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] sm:h-14'}`}
           />
         </a>
 
-        <nav className="hidden items-center gap-7 xl:flex">
+        <nav className="hidden items-center gap-1 xl:flex">
           {navLinks.map((l) => {
             const active = l.route === route;
             return (
@@ -60,51 +62,64 @@ export default function Navbar({ route }: Props) {
                 key={l.route}
                 href={href(l.route)}
                 aria-current={active ? 'page' : undefined}
-                className={`group relative text-sm transition-colors duration-300 ${
-                  solid ? (active ? 'text-clay-600' : 'text-ink-700 hover:text-clay-600') : 'text-sand-50/90 hover:text-sand-50'
+                className={`rounded-full px-4 py-2 text-sm transition-all duration-300 ${
+                  solid
+                    ? active ? 'bg-ink-900 text-sand-50' : 'text-ink-700 hover:bg-sand-200/70 hover:text-ink-900'
+                    : active ? 'bg-sand-50/20 text-sand-50 backdrop-blur' : 'text-sand-50/90 hover:bg-sand-50/10 hover:text-sand-50'
                 }`}
               >
                 {l.label}
-                <span className={`absolute -bottom-1 left-0 h-px bg-current transition-all duration-500 ${active ? 'w-full' : 'w-0 group-hover:w-full'}`} />
               </a>
             );
           })}
         </nav>
 
-        <div className="hidden items-center gap-5 xl:flex">
+        <div className="hidden items-center gap-4 xl:flex">
           <a href={tel(contact.mobile)} className={`flex items-center gap-2 text-sm transition-colors ${solid ? 'text-ink-700 hover:text-clay-600' : 'text-sand-50/90 hover:text-sand-50'}`}>
             <Phone className="h-4 w-4" /> {contact.mobile}
           </a>
-          <a href={href('booking')} className="btn-primary !px-6 !py-3">Book Now</a>
+          <a
+            href={href('booking')}
+            className={`group inline-flex items-center gap-2 rounded-full py-2 pl-5 pr-2 text-sm font-medium transition-all duration-500 ${
+              solid ? 'bg-ink-900 text-sand-50 hover:bg-clay-600' : 'bg-sand-50 text-ink-900 hover:bg-clay-600 hover:text-sand-50'
+            }`}
+          >
+            Book Now
+            <span className={`flex h-8 w-8 items-center justify-center rounded-full transition-transform duration-500 group-hover:rotate-45 ${solid ? 'bg-sand-50 text-ink-900' : 'bg-ink-900 text-sand-50'}`}>
+              <ArrowUpRight className="h-4 w-4" />
+            </span>
+          </a>
         </div>
 
         <button
           onClick={() => setOpen((o) => !o)}
-          className={`flex h-11 w-11 items-center justify-center rounded-full xl:hidden ${solid ? 'text-ink-900' : 'text-sand-50'}`}
+          className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors xl:hidden ${solid ? 'bg-ink-900 text-sand-50' : 'bg-sand-50/15 text-sand-50 backdrop-blur'}`}
           aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
         >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
       <div
-        className={`fixed inset-x-0 bottom-0 top-[68px] overflow-y-auto bg-sand-50 px-6 pb-10 pt-6 transition-all duration-500 xl:hidden ${
+        className={`fixed inset-0 -z-10 overflow-y-auto bg-sand-50 px-6 pb-10 pt-28 transition-all duration-500 xl:hidden ${
           open ? 'visible opacity-100' : 'invisible opacity-0'
         }`}
       >
         <nav className="flex flex-col">
-          {navLinks.map((l) => (
+          {navLinks.map((l, i) => (
             <a
               key={l.route}
               href={href(l.route)}
               onClick={() => setOpen(false)}
-              className={`border-b border-sand-200 py-4 font-serif text-3xl transition-colors hover:text-clay-600 ${l.route === route ? 'text-clay-600' : 'text-ink-900'}`}
+              className={`flex items-baseline gap-4 border-b border-sand-200 py-4 font-serif text-4xl transition-colors hover:text-clay-600 ${l.route === route ? 'text-clay-600' : 'text-ink-900'}`}
             >
+              <span className="font-sans text-xs text-ink-400">0{i + 1}</span>
               {l.label}
             </a>
           ))}
         </nav>
-        <a href={href('booking')} onClick={() => setOpen(false)} className="btn-primary mt-8 w-full">Book Now</a>
+        <a href={href('booking')} onClick={() => setOpen(false)} className="btn-dark mt-8 w-full">Book Now</a>
         <a href={tel(contact.mobile)} className="btn-ghost mt-3 w-full border-sand-300 text-ink-800">
           <Phone className="h-4 w-4" /> {contact.mobile}
         </a>

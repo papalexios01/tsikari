@@ -2,12 +2,13 @@ import { Bed, CalendarCheck, Info, Mail, MapPin, MessageCircle, Phone, Sparkles,
 import BookingForm from '@/components/BookingForm';
 import PageHeader from '@/components/PageHeader';
 import { bookingPerks, contact, tel } from '@/data/content';
+import { parseBookingAnchor } from '@/lib/booking';
 import { media } from '@/data/media';
 import { useReveal } from '@/hooks/useReveal';
 
 const perkIcons = [Bed, MapPin, UserRound, Sparkles];
 
-export default function Booking({ room }: { room: string }) {
+export default function Booking({ anchor }: { anchor: string }) {
   const ref = useReveal<HTMLDivElement>();
 
   return (
@@ -29,7 +30,7 @@ export default function Booking({ room }: { room: string }) {
             </p>
             <h2 className="mt-4 text-4xl text-ink-900">Tell us about your trip</h2>
             <p className="mb-8 mt-2 text-sm text-ink-500">No payment is taken here. We confirm everything with you directly.</p>
-            <BookingForm key={room} initialRoom={room} />
+            <BookingForm key={anchor} prefill={parseBookingAnchor(anchor)} />
           </div>
 
           <aside className="space-y-6 lg:col-span-5">

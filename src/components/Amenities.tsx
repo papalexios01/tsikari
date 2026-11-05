@@ -7,35 +7,45 @@ export default function Amenities() {
   const ref = useReveal<HTMLElement>();
 
   return (
-    <section id="amenities" ref={ref} className="bg-sand-100 py-24 lg:py-36">
+    <section id="amenities" ref={ref} className="bg-sand-50 py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-32">
-              <p className="eyebrow reveal text-clay-600">What we offer</p>
-              <h2 className="reveal mt-6 text-4xl text-ink-900 sm:text-5xl">Amenities</h2>
-              <p className="reveal mt-6 text-ink-500">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <div className="lg:sticky lg:top-28">
+              <p className="section-num reveal text-clay-600">04 &nbsp;/&nbsp; What we offer</p>
+              <h2 className="reveal mt-8 text-5xl text-ink-900 sm:text-6xl lg:text-7xl">
+                Amen<em className="text-clay-600">ities</em>
+              </h2>
+              <p className="reveal mt-6 max-w-md text-ink-500">
                 Thoughtful comforts, natural materials and a little everyday luxury, chosen to make you feel at home from
                 the first evening.
               </p>
-              <div className="reveal mt-10 hidden overflow-hidden rounded-3xl lg:block">
-                <Img photo={media.gallery[2]} alt="Studio at Archontiko Tsikari" sizes="34vw" className="aspect-[4/5] w-full object-cover" />
+              <div className="reveal-img relative mt-10 hidden aspect-[4/5] overflow-hidden lg:block">
+                <Img photo={media.gallery[2]} alt="Studio at Archontiko Tsikari" sizes="38vw" className="h-full w-full object-cover" />
+                <span className="absolute bottom-5 left-5 rounded-full bg-sand-50/90 px-5 py-2.5 text-xs text-ink-800 backdrop-blur">
+                  {amenities.length} comforts in every stay
+                </span>
               </div>
             </div>
           </div>
 
-          <ul className="grid gap-4 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-3">
+          <ul className="grid self-start overflow-hidden rounded-[32px] border border-sand-200 sm:grid-cols-2 lg:col-span-7">
             {amenities.map(({ icon: Icon, title, text }, i) => (
               <li
                 key={title}
-                className="reveal group rounded-3xl border border-sand-200 bg-sand-50 p-7 transition-all duration-500 hover:-translate-y-1 hover:border-clay-300 hover:shadow-[0_24px_48px_-24px_rgba(124,63,41,0.35)]"
-                style={{ transitionDelay: `${(i % 3) * 80}ms` }}
+                className="reveal group relative -mb-px -mr-px border-b border-r border-sand-200 bg-sand-50 p-8 transition-colors duration-500 hover:bg-ink-900"
+                style={{ transitionDelay: `${(i % 2) * 80}ms` }}
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-clay-100 text-clay-600 transition-colors duration-500 group-hover:bg-clay-600 group-hover:text-sand-50">
-                  <Icon className="h-5 w-5" strokeWidth={1.5} />
-                </span>
-                <h3 className="mt-6 text-2xl text-ink-900">{title}</h3>
-                <p className="mt-2 text-sm text-ink-500">{text}</p>
+                <div className="flex items-start justify-between">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full border border-sand-300 text-clay-600 transition-all duration-500 group-hover:border-clay-300 group-hover:bg-clay-600 group-hover:text-sand-50">
+                    <Icon className="h-5 w-5" strokeWidth={1.5} />
+                  </span>
+                  <span className="font-serif text-sm italic text-ink-300 transition-colors duration-500 group-hover:text-sand-200/50">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </div>
+                <h3 className="mt-8 text-2xl text-ink-900 transition-colors duration-500 group-hover:text-sand-50">{title}</h3>
+                <p className="mt-2 text-sm text-ink-500 transition-colors duration-500 group-hover:text-sand-200/80">{text}</p>
               </li>
             ))}
           </ul>

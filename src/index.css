@@ -14,7 +14,7 @@
   h2,
   h3,
   h4 {
-    @apply font-serif;
+    @apply font-serif font-normal;
     line-height: 1.2;
   }
   ::selection {
@@ -26,14 +26,31 @@
   .eyebrow {
     @apply font-sans text-[11px] font-medium uppercase tracking-widest2;
   }
+  .section-num {
+    @apply flex items-center gap-4 font-sans text-[11px] font-medium uppercase tracking-widest2;
+  }
+  .section-num::after {
+    content: '';
+    @apply h-px w-12 bg-current opacity-40;
+  }
+  .display {
+    @apply font-serif font-normal tracking-[-0.02em];
+    line-height: 0.95;
+  }
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-full bg-clay-600 px-7 py-4 text-sm font-medium tracking-wide text-sand-50 transition-all duration-500 hover:bg-clay-700 hover:shadow-[0_16px_40px_-12px_rgba(124,63,41,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-300 focus-visible:ring-offset-2;
+  }
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 px-7 py-4 text-sm font-medium tracking-wide text-sand-50 transition-all duration-500 hover:bg-clay-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-300 focus-visible:ring-offset-2;
   }
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 rounded-full border px-7 py-4 text-sm font-medium tracking-wide transition-all duration-500;
   }
   .field {
     @apply w-full rounded-xl border border-sand-200 bg-white px-4 py-3 text-sm text-ink-800 placeholder:text-ink-400 transition focus:border-clay-500 focus:outline-none focus:ring-4 focus:ring-clay-100;
+  }
+  .line-mask {
+    @apply block overflow-hidden pb-[0.08em];
   }
 }
 
@@ -47,11 +64,34 @@
   transform: none;
 }
 
+.reveal-img {
+  clip-path: inset(12% 12% 12% 12% round 32px);
+  transition: clip-path 1.4s cubic-bezier(.2,.7,.2,1);
+}
+.reveal-img.is-visible {
+  clip-path: inset(0 0 0 0 round 32px);
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .reveal-img {
+    clip-path: none;
+    transition: none;
+  }
+  .animate-line-up,
+  .animate-slow-zoom,
+  .animate-spin-slow,
+  .animate-marquee {
+    animation: none;
   }
   html {
     scroll-behavior: auto;

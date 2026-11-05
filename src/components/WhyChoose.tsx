@@ -10,12 +10,12 @@ export default function WhyChoose() {
   const feature = features[active];
 
   return (
-    <section id="discover" ref={ref} className="bg-ink-900 py-24 text-sand-50 lg:py-36">
+    <section id="discover" ref={ref} className="bg-ink-900 py-24 text-sand-50 lg:mx-3 lg:rounded-[36px] lg:py-36">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div>
-            <p className="eyebrow reveal text-clay-300">Discover</p>
-            <h2 className="reveal mt-6 max-w-2xl text-4xl sm:text-5xl lg:text-6xl">
+            <p className="section-num reveal text-clay-300">03 &nbsp;/&nbsp; Discover</p>
+            <h2 className="reveal mt-8 max-w-2xl text-5xl sm:text-6xl lg:text-7xl">
               Why choose <em className="text-sand-300">Archontiko Tsikari?</em>
             </h2>
           </div>

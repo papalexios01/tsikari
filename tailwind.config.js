@@ -9,12 +9,13 @@ export default {
       },
       colors: {
         sand: {
-          50: '#fbf8f3',
-          100: '#f5efe4',
-          200: '#ebdfcb',
-          300: '#dccaa9',
-          400: '#c7ad82',
-          500: '#b39363',
+          50: '#f9f6f0',
+          100: '#f2ece1',
+          200: '#e6dccb',
+          300: '#d6c6a9',
+          400: '#c2a97f',
+          500: '#a88d60',
+          600: '#8a7149',
         },
         clay: {
           100: '#f6e3d8',
@@ -38,6 +39,7 @@ export default {
           700: '#244a5e',
         },
         ink: {
+          300: '#a9a399',
           400: '#8a847b',
           500: '#6b665e',
           700: '#3b3832',
@@ -56,9 +58,17 @@ export default {
           '0%': { opacity: '0', transform: 'translateY(24px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        'line-up': {
+          '0%': { transform: 'translateY(105%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
         'slow-zoom': {
           '0%': { transform: 'scale(1.12)' },
           '100%': { transform: 'scale(1)' },
+        },
+        'spin-slow': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
         },
         scroll: {
           '0%': { transform: 'translateY(-100%)' },
@@ -71,7 +81,9 @@ export default {
       },
       animation: {
         'fade-up': 'fade-up 1s cubic-bezier(.2,.7,.2,1) both',
+        'line-up': 'line-up 1.2s cubic-bezier(.2,.7,.2,1) both',
         'slow-zoom': 'slow-zoom 9s cubic-bezier(.2,.7,.2,1) both',
+        'spin-slow': 'spin-slow 24s linear infinite',
         scroll: 'scroll 2.2s ease-in-out infinite',
         marquee: 'marquee 40s linear infinite',
       },

@@ -1,21 +1,24 @@
 import { useState, type FormEvent } from 'react';
 import { CheckCircle2, Loader2 } from 'lucide-react';
 import { rooms } from '@/data/content';
+import type { BookingPrefill } from '@/lib/booking';
 import { supabase } from '@/lib/supabase';
 
 const today = () => new Date().toISOString().slice(0, 10);
 
-type Props = { initialRoom?: string };
+type Props = { prefill?: Partial<BookingPrefill> };
 
-export default function BookingForm({ initialRoom = '' }: Props) {
-  const preset = rooms.find((r) => r.id === initialRoom);
+export default function BookingForm({ prefill = {} }: Props) {
+  const preset = rooms.find((r) => r.id === prefill.room);
+  const validIn = prefill.check_in && prefill.check_in >= today() ? prefill.check_in : '';
+  const validOut = validIn && prefill.check_out && prefill.check_out > validIn ? prefill.check_out : '';
   const empty = {
     full_name: '',
     email: '',
     phone: '',
-    check_in: '',
-    check_out: '',
-    guests: preset ? Math.min(2, preset.guests) : 2,
+    check_in: validIn,
+    check_out: validOut,
+    guests: Math.min(prefill.guests ?? 2, preset?.guests ?? 4),
     room: preset?.id ?? '',
     message: '',
   };
