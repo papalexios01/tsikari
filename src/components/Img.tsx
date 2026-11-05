@@ -35,7 +35,6 @@ export default function Img({ photo, priority=false, alt='', sizes='100vw', fit=
     decoding={priority?'sync':'async'}
     fetchPriority={priority?'high':'auto'}
     className={className}
-    style={{...placeholder,...style}}
-    {...(intrinsic ? {} : {})}
+    style={{...placeholder,...(intrinsic && width && height ? {aspectRatio: width / height} : {}),...style}}
     {...rest} />;
 }
