@@ -32,7 +32,7 @@ export const stats = [
   { value: '1901', label: 'Year the mansion was built' },
   { value: '5', label: 'Private studios' },
   { value: '3 min', label: 'Drive to the airport' },
-  { value: '20 min', label: 'To anywhere on the island' },
+  { value: 'Central', label: 'Location in Varos, Lemnos' },
 ];
 
 export type Feature = {
@@ -70,7 +70,7 @@ export const features: Feature[] = [
     lead: 'Varos sits at the island\u2019s centre, so every beach and village is close at hand.',
     image: own.island,
     body: [
-      'Being in the middle of the island means short drives in every direction: about twenty minutes to the most distant spot, twenty to the port, and only three to the airport.',
+      'Varos sits in a central part of Lemnos, making a convenient base for exploring its villages and beaches. Myrina port is about twenty minutes away by car, and the airport is close by.',
       'Our favourite swims: the two Fanaraki coves, Chavouli, Plati, Thanos and Zematas. Surfers head for Keros, while Gomati\u2019s dunes look more like the desert than the Aegean. Avlonas and Agios Ioannis lie close to Myrina, and Alykes is the spot for scooping up sea salt.',
       'Save a whole day for Myrina. Browse the Archaeological Museum, climb to the Venetian castle to meet its resident deer, then wander the market before dinner by the water on Romeiko or Tourkiko Gialos. As evening falls, the sun sinks behind Mount Athos, a view many keep on their bucket list.',
       'The island\u2019s clean air has been celebrated for thousands of years, and its rich earth grows wonderful produce, from vegetables and fruit to its prized flour. Plenty of visitors leave feeling rested in a way they hadn\u2019t expected.',
@@ -247,7 +247,7 @@ export const timeline = [
 
 export const bookingPerks = [
   { title: 'COCO-MAT Comfort', text: 'Ecological bedding and bath products in every studio.' },
-  { title: 'Central Location', text: 'Three minutes from the airport, all of Lemnos within 20 minutes.' },
+  { title: 'Central Location', text: 'Stay in Varos, with convenient access to the airport, Myrina and the island.' },
   { title: 'Personal Service', text: 'Your own housekeeper looks after every detail.' },
   { title: 'Hotel Quality, B&B Warmth', text: 'Five unique studios and family hospitality since 1901.' },
 ];

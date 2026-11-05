@@ -1,24 +1,23 @@
 import { useState, type FormEvent } from 'react';
 import { CheckCircle2, Loader2 } from 'lucide-react';
-import { rooms } from '@/data/content';
+import { contact, rooms } from '@/data/content';
+import { dateToEpochDay, nextDay, nightsBetween, todayLocal } from '@/lib/dates';
 import type { BookingPrefill } from '@/lib/booking';
 import { supabase } from '@/lib/supabase';
-
-const today = () => new Date().toISOString().slice(0, 10);
 
 type Props = { prefill?: Partial<BookingPrefill> };
 
 export default function BookingForm({ prefill = {} }: Props) {
   const preset = rooms.find((r) => r.id === prefill.room);
-  const validIn = prefill.check_in && prefill.check_in >= today() ? prefill.check_in : '';
-  const validOut = validIn && prefill.check_out && prefill.check_out > validIn ? prefill.check_out : '';
+  const validIn = prefill.check_in && dateToEpochDay(prefill.check_in) !== null && prefill.check_in >= todayLocal() ? prefill.check_in : '';
+  const validOut = validIn && prefill.check_out && nightsBetween(validIn, prefill.check_out) > 0 ? prefill.check_out : '';
   const empty = {
     full_name: '',
     email: '',
     phone: '',
     check_in: validIn,
     check_out: validOut,
-    guests: Math.min(prefill.guests ?? 2, preset?.guests ?? 4),
+    guests: Math.max(1, Math.min(prefill.guests ?? 2, preset?.guests ?? 4)),
     room: preset?.id ?? '',
     message: '',
   };
@@ -30,35 +29,48 @@ export default function BookingForm({ prefill = {} }: Props) {
   const selectedRoom = rooms.find((r) => r.id === form.room);
   const maxGuests = selectedRoom?.guests ?? 4;
 
-  const nights =
-    form.check_in && form.check_out
-      ? Math.round((new Date(form.check_out).getTime() - new Date(form.check_in).getTime()) / 86400000)
-      : 0;
+  const nights = nightsBetween(form.check_in, form.check_out);
+  const emailDraft = 'mailto:' + contact.email + '?subject=' + encodeURIComponent('Availability enquiry - Archontiko Tsikari') + '&body=' + encodeURIComponent([
+    'Name: ' + form.full_name,
+    'Email: ' + form.email,
+    'Phone: ' + (form.phone || 'Not provided'),
+    'Studio: ' + (selectedRoom?.name || 'No preference'),
+    'Check-in: ' + (form.check_in || 'To be confirmed'),
+    'Check-out: ' + (form.check_out || 'To be confirmed'),
+    'Guests: ' + Math.min(form.guests, maxGuests),
+    '',
+    form.message,
+  ].join('\n'));
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
-    if (nights < 1) {
+    if (form.check_in < todayLocal() || nights < 1) {
       setError('Please choose a check-out date after your check-in date.');
       return;
     }
-    setStatus('sending');
-    const { error: err } = await supabase.from('booking_inquiries').insert({
-      full_name: form.full_name.trim(),
-      email: form.email.trim(),
-      phone: form.phone.trim() || null,
-      check_in: form.check_in,
-      check_out: form.check_out,
-      guests: Math.min(form.guests, maxGuests),
-      room: form.room || null,
-      message: form.message.trim() || null,
-    });
-    if (err) {
-      setStatus('idle');
-      setError('We couldn\u2019t send your request just now. Please try again or contact us directly by phone or WhatsApp.');
+    if (!supabase) {
+      setError('Online enquiries are not configured. Use the email option below; no request has been sent.');
       return;
     }
-    setStatus('sent');
+    setStatus('sending');
+    try {
+      const { error: err } = await supabase.from('booking_inquiries').insert({
+        full_name: form.full_name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim() || null,
+        check_in: form.check_in,
+        check_out: form.check_out,
+        guests: Math.min(form.guests, maxGuests),
+        room: form.room || null,
+        message: form.message.trim() || null,
+      });
+      if (err) throw err;
+      setStatus('sent');
+    } catch {
+      setStatus('idle');
+      setError('Your request was not submitted. Please try again or use the prepared email option below.');
+    }
   };
 
   if (status === 'sent') {
@@ -97,11 +109,14 @@ export default function BookingForm({ prefill = {} }: Props) {
         </label>
         <label className="block">
           <span className="mb-1.5 block text-xs font-medium text-ink-700">Check-in</span>
-          <input type="date" required min={today()} value={form.check_in} onChange={(e) => set('check_in', e.target.value)} className="field" />
+          <input type="date" required min={todayLocal()} value={form.check_in} onChange={(e) => {
+            const next = e.target.value;
+            setForm((current) => ({ ...current, check_in: next, check_out: current.check_out && current.check_out <= next ? '' : current.check_out }));
+          }} className="field" />
         </label>
         <label className="block">
           <span className="mb-1.5 block text-xs font-medium text-ink-700">Check-out</span>
-          <input type="date" required min={form.check_in || today()} value={form.check_out} onChange={(e) => set('check_out', e.target.value)} className="field" />
+          <input type="date" required min={nextDay(form.check_in || todayLocal())} value={form.check_out} onChange={(e) => set('check_out', e.target.value)} className="field" />
         </label>
         <label className="block">
           <span className="mb-1.5 block text-xs font-medium text-ink-700">Full name</span>
@@ -129,16 +144,20 @@ export default function BookingForm({ prefill = {} }: Props) {
         </label>
       </div>
 
-      {error && <p className="mt-4 rounded-xl bg-error-100 px-4 py-3 text-sm text-error-700">{error}</p>}
+      {error && <p role="alert" className="mt-4 rounded-xl bg-error-100 px-4 py-3 text-sm text-error-700">{error}</p>}
+      {!supabase && <p role="status" className="mt-4 rounded-xl bg-warning-100 px-4 py-3 text-sm text-ink-800">Online requests are currently unavailable. You can open a prepared email below; please send it from your email app.</p>}
 
       <div className="mt-8 flex flex-col-reverse items-center justify-between gap-4 sm:flex-row">
         <p className="text-sm text-ink-500">
           {nights > 0 ? <><span className="font-serif text-2xl text-ink-900">{nights}</span> night{nights > 1 ? 's' : ''} selected</> : 'No payment needed to ask.'}
         </p>
-        <button type="submit" disabled={status === 'sending'} className="btn-primary w-full disabled:opacity-60 sm:w-auto">
-          {status === 'sending' && <Loader2 className="h-4 w-4 animate-spin" />}
-          {status === 'sending' ? 'Sending...' : 'Send request'}
-        </button>
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+          <a href={emailDraft} className="btn-ghost w-full border-sand-300 text-ink-800 hover:bg-sand-100 sm:w-auto">Open email draft</a>
+          <button type="submit" disabled={!supabase || status === 'sending'} className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
+            {status === 'sending' && <Loader2 className="h-4 w-4 animate-spin" />}
+            {status === 'sending' ? 'Sending...' : 'Send request'}
+          </button>
+        </div>
       </div>
     </form>
   );

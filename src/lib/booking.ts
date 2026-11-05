@@ -1,4 +1,5 @@
 import { href } from '@/lib/router';
+import { dateToEpochDay } from '@/lib/dates';
 
 export type BookingPrefill = { room: string; check_in: string; check_out: string; guests: number };
 
@@ -12,7 +13,7 @@ export const bookingHref = (p: Partial<BookingPrefill>) => {
   return href('booking', query ? `q=${query.replace(/&/g, '~')}` : undefined);
 };
 
-const isDate = (v: string | null) => (v && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : '');
+const isDate = (v: string | null) => (v && dateToEpochDay(v) !== null ? v : '');
 
 export const parseBookingAnchor = (anchor: string): Partial<BookingPrefill> => {
   if (!anchor.startsWith('q=')) return { room: anchor };

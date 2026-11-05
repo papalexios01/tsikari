@@ -2,11 +2,10 @@ import { useState, type FormEvent } from 'react';
 import { ArrowRight, BedDouble, CalendarDays, Users } from 'lucide-react';
 import { rooms } from '@/data/content';
 import { bookingHref } from '@/lib/booking';
-
-const today = () => new Date().toISOString().slice(0, 10);
+import { nextDay, todayLocal } from '@/lib/dates';
 
 const label = 'eyebrow flex items-center gap-2 !text-[10px] text-ink-400';
-const input = 'mt-1.5 w-full bg-transparent font-serif text-xl text-ink-900 outline-none';
+const input = 'mt-1.5 min-w-0 w-full bg-transparent font-serif text-base text-ink-900 outline-none sm:text-xl focus-visible:ring-2 focus-visible:ring-clay-400';
 
 export default function AvailabilityBar() {
   const [room, setRoom] = useState('');
@@ -14,6 +13,7 @@ export default function AvailabilityBar() {
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(2);
   const max = rooms.find((r) => r.id === room)?.guests ?? 4;
+  const earliestCheckout = nextDay(checkIn || todayLocal());
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -41,11 +41,15 @@ export default function AvailabilityBar() {
       </label>
       <label className="bg-sand-50 px-6 py-4 transition-colors hover:bg-white">
         <span className={label}><CalendarDays className="h-3.5 w-3.5" /> Check-in</span>
-        <input type="date" min={today()} value={checkIn} onChange={(e) => setCheckIn(e.target.value)} className={input} />
+        <input type="date" required min={todayLocal()} value={checkIn} onChange={(e) => {
+          const next = e.target.value;
+          setCheckIn(next);
+          if (checkOut && checkOut <= next) setCheckOut('');
+        }} className={input} />
       </label>
       <label className="bg-sand-50 px-6 py-4 transition-colors hover:bg-white">
         <span className={label}><CalendarDays className="h-3.5 w-3.5" /> Check-out</span>
-        <input type="date" min={checkIn || today()} value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className={input} />
+        <input type="date" required min={earliestCheckout} value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className={input} />
       </label>
       <label className="col-span-2 bg-sand-50 px-6 py-4 transition-colors hover:bg-white lg:col-span-1">
         <span className={label}><Users className="h-3.5 w-3.5" /> Guests</span>
@@ -57,7 +61,7 @@ export default function AvailabilityBar() {
       </label>
       <div className="col-span-2 bg-sand-50 p-2 lg:col-span-1">
         <button type="submit" className="btn-dark group h-full w-full !py-5 lg:!px-8">
-          Check availability
+          Request availability
           <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
         </button>
       </div>

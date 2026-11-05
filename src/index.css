@@ -97,3 +97,37 @@ input[type='date']::-webkit-calendar-picker-indicator {
     scroll-behavior: auto;
   }
 }
+
+
+/* Premium editorial details and keyboard-first accessibility */
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  left: 1rem;
+  top: -5rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: 0.5rem;
+  background: #f9f6f0;
+  color: #1b302b;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid #cc9d73;
+  outline-offset: 3px;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 160ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

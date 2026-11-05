@@ -1,4 +1,5 @@
 import { MessageCircle } from 'lucide-react';
+import RouteMeta from '@/components/RouteMeta';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Home from '@/pages/Home';
@@ -26,8 +27,13 @@ export default function App() {
 
   return (
     <>
+      <RouteMeta route={route} />
+      <a href="#main-content" className="skip-link" onClick={(event) => {
+        event.preventDefault();
+        document.getElementById('main-content')?.focus();
+      }}>Skip to content</a>
       <Navbar route={route} />
-      <main key={route}>{page}</main>
+      <main id="main-content" tabIndex={-1} key={route}>{page}</main>
       <Footer />
       <a
         href={contact.whatsapp}
