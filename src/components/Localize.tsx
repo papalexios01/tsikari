@@ -1,13 +1,13 @@
 import { useLayoutEffect } from 'react';
 import { getLocale } from '@/lib/locale';
-import { translate } from '@/lib/translations';
+type Translate = (value: string) => string;
 
 /**
  * Localize existing editorial JSX and structured content without changing its
  * source-of-truth data. Runs once after a render and only on changed DOM nodes.
  * Translations are local, deterministic, and require no remote service.
  */
-function translateSubtree(root: Node) {
+function translateSubtree(root: Node, translate: Translate) {
   const translateElement = (element: Element) => {
     if (element.closest('script, style, noscript, svg, code, pre, [translate="no"]')) return;
     for (const attr of ['placeholder', 'aria-label', 'title', 'alt']) {
@@ -59,18 +59,29 @@ export default function Localize() {
     if (locale !== 'el') return;
     const root = document.getElementById('root');
     if (!root) return;
-    translateSubtree(root);
-    const observer = new MutationObserver((mutations) => {
-      for (const mutation of mutations) {
-        if (mutation.type === 'characterData') {
-          translateSubtree(mutation.target);
-        } else {
-          mutation.addedNodes.forEach(translateSubtree);
+    let cancelled = false;
+    let observer: MutationObserver | null = null;
+    // English visitors never download the Greek dictionary.
+    void import('@/lib/translations').then(({ translate }) => {
+      if (cancelled) return;
+      translateSubtree(root, translate);
+      observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          if (mutation.type === 'characterData') {
+            translateSubtree(mutation.target, translate);
+          } else {
+            mutation.addedNodes.forEach((node) => translateSubtree(node, translate));
+          }
         }
-      }
+      });
+      observer.observe(root, { childList: true, subtree: true, characterData: true });
+    }).catch(() => {
+      // A translation chunk failing must never blank the hotel site.
     });
-    observer.observe(root, { childList: true, subtree: true, characterData: true });
-    return () => observer.disconnect();
+    return () => {
+      cancelled = true;
+      observer?.disconnect();
+    };
   }, []);
   return null;
 }
