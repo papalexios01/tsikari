@@ -2,8 +2,9 @@ name: Tsikari quality checks
 on:
   push:
     branches:
+      - main
       - feat/editorial-redesign-booking-reliability
-  pull_request:
+  pull_request: {}
 permissions:
   contents: read
 jobs:
