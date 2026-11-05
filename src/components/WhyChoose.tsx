@@ -3,10 +3,13 @@ import { ArrowUpRight } from 'lucide-react';
 import Img from '@/components/Img';
 import { features } from '@/data/content';
 import { href } from '@/lib/router';
+import { getLocale } from '@/lib/locale';
+import { translate } from '@/lib/translations';
 
 export default function WhyChoose() {
   const [active,setActive]=useState(0);
   const feature=features[active];
+  const greek = getLocale() === 'el';
   return (
     <section id="discover" className="ge-experience">
       <div className="ge-container">
@@ -16,7 +19,7 @@ export default function WhyChoose() {
         </div>
         <div className="ge-experience__grid">
           <div className="ge-experience__photowrap"><Img photo={feature.image} sizes="(min-width: 960px) 50vw, 100vw" alt={feature.title} />
-            <p>0{active+1} / 03 — {feature.tab.toUpperCase()}</p></div>
+            <p>0{active+1} / 03 — {greek ? translate(feature.tab).toLocaleUpperCase('el-GR') : feature.tab.toUpperCase()}</p></div>
           <div className="ge-experience__content">
             <div className="ge-experience__tabs" aria-label="Discover the experience" role="group">
               {features.map((f,i)=><button type="button" aria-pressed={active===i} key={f.id} onClick={()=>setActive(i)} className={active===i?'is-active':''}>
