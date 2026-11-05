@@ -13,9 +13,12 @@ export default function GalleryPage() {
   const photos = useMemo(() => {
     const groups = filter === ALL ? galleryGroups : galleryGroups.filter((g) => g.id === filter);
     const seen = new Set<string>();
-    return groups.flatMap((g) =>
-      g.photos.filter((p) => !seen.has(p) && seen.add(p)).map((p, i) => ({ photo: p, alt: `${g.label}, photo ${i + 1}` })),
-    );
+    const curated = ['/images/main-2.webp','/images/rooms/2-3/17.jpg','/images/rooms/2-4/31.jpg'];
+    const arranged = groups.flatMap((g) => g.photos.filter((p) => !seen.has(p) && seen.add(p)).map((p, i) => ({ photo: p, alt: `${g.label}, photo ${i + 1}` })));
+    return filter === ALL ? arranged.sort((a,b) => {
+      const rank=(p:string)=>curated.indexOf(p)<0?Infinity:curated.indexOf(p);
+      return rank(a.photo)-rank(b.photo);
+    }) : arranged;
   }, [filter]);
 
   const total = useMemo(() => new Set(galleryGroups.flatMap((g) => g.photos)).size, []);
