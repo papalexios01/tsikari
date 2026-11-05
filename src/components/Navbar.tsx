@@ -21,6 +21,7 @@ export default function Navbar({ route }: { route: Route }) {
   useEffect(() => {
     if (!open) return;
     const before = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const toggle = buttonRef.current;
     const priorOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     panelRef.current?.querySelector<HTMLElement>('a[href]')?.focus();
@@ -44,7 +45,7 @@ export default function Navbar({ route }: { route: Route }) {
     return () => {
       document.removeEventListener('keydown', keydown);
       document.body.style.overflow = priorOverflow;
-      (before?.isConnected ? before : buttonRef.current)?.focus();
+      (before?.isConnected ? before : toggle)?.focus();
     };
   }, [open]);
 
