@@ -19,12 +19,12 @@ export default function WhyChoose() {
               Why choose <em className="text-sand-300">Archontiko Tsikari?</em>
             </h2>
           </div>
-          <div role="tablist" className="reveal flex gap-2 overflow-x-auto rounded-full border border-sand-50/15 p-1.5">
+          <div role="group" aria-label="Hotel features" className="reveal flex gap-2 overflow-x-auto rounded-full border border-sand-50/15 p-1.5">
             {features.map((f, i) => (
               <button
                 key={f.id}
-                role="tab"
-                aria-selected={i === active}
+                type="button"
+                aria-pressed={i === active}
                 onClick={() => setActive(i)}
                 className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition-all duration-500 ${
                   i === active ? 'bg-sand-50 text-ink-900' : 'text-sand-200 hover:text-sand-50'

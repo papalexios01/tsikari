@@ -9,6 +9,10 @@ export function useReveal<T extends HTMLElement>() {
     const root = ref.current;
     if (!root) return;
     const targets = [root, ...Array.from(root.querySelectorAll<HTMLElement>(SELECTOR))].filter((el) => el.matches(SELECTOR));
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      targets.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

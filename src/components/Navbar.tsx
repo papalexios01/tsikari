@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Menu, Phone, X } from 'lucide-react';
 import { contact, navLinks, tel } from '@/data/content';
 import { media } from '@/data/media';
@@ -10,6 +10,8 @@ export default function Navbar({ route }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -23,8 +25,43 @@ export default function Navbar({ route }: Props) {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    menuRef.current?.querySelector<HTMLElement>('a[href]')?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(menuRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previousOverflow;
+      menuButtonRef.current?.focus();
+    };
   }, [open]);
+
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1280px)');
+    const onResize = () => { if (desktop.matches) setOpen(false); };
+    desktop.addEventListener('change', onResize);
+    return () => desktop.removeEventListener('change', onResize);
+  }, []);
 
   useEffect(() => setOpen(false), [route]);
 
@@ -33,7 +70,7 @@ export default function Navbar({ route }: Props) {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${solid ? 'px-3 pt-3' : 'px-2 pt-2 sm:px-3 sm:pt-3'}`}>
       <div
-        className={`relative mx-auto flex items-center justify-between gap-6 overflow-hidden transition-all duration-500 ${
+        className={`relative z-20 mx-auto flex items-center justify-between gap-6 overflow-hidden transition-all duration-500 ${
           solid
             ? 'max-w-6xl rounded-full bg-sand-50/90 py-2 pl-5 pr-2 shadow-[0_12px_40px_-16px_rgba(23,22,19,0.35)] ring-1 ring-ink-900/5 backdrop-blur-xl sm:pl-7'
             : 'max-w-7xl px-4 py-5 sm:px-8 lg:px-10'
@@ -92,6 +129,9 @@ export default function Navbar({ route }: Props) {
         </div>
 
         <button
+          ref={menuButtonRef}
+          type="button"
+          aria-controls="mobile-navigation"
           onClick={() => setOpen((o) => !o)}
           className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors xl:hidden ${solid ? 'bg-ink-900 text-sand-50' : 'bg-sand-50/15 text-sand-50 backdrop-blur'}`}
           aria-label={open ? 'Close menu' : 'Open menu'}
@@ -102,11 +142,14 @@ export default function Navbar({ route }: Props) {
       </div>
 
       <div
-        className={`fixed inset-0 -z-10 overflow-y-auto bg-sand-50 px-6 pb-10 pt-28 transition-all duration-500 xl:hidden ${
+        id="mobile-navigation"
+        ref={menuRef}
+        aria-hidden={!open}
+        className={`fixed inset-0 z-10 overflow-y-auto bg-sand-50 px-6 pb-10 pt-28 transition-all duration-500 xl:hidden ${
           open ? 'visible opacity-100' : 'invisible opacity-0'
         }`}
       >
-        <nav className="flex flex-col">
+        <nav aria-label="Mobile navigation" className="flex flex-col">
           {navLinks.map((l, i) => (
             <a
               key={l.route}

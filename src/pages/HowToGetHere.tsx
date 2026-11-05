@@ -14,7 +14,7 @@ const mapTabs = [
 const facts = [
   { icon: Plane, value: '3 min', label: 'from Lemnos International Airport' },
   { icon: Ship, value: '~20 min', label: 'drive from Myrina port' },
-  { icon: Clock, value: '20 min', label: 'to almost anywhere on the island' },
+  { icon: Clock, value: 'Central', label: 'location for exploring Lemnos' },
 ];
 
 export default function HowToGetHere() {

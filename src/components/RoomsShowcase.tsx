@@ -33,7 +33,7 @@ export default function RoomsShowcase() {
 
         <div className="mt-16 grid gap-6 lg:grid-cols-2 lg:gap-8">
           {rooms.map((room, i) => (
-            <article key={room.id} className="reveal group" style={{ transitionDelay: `${i * 150}ms` }}>
+            <article key={room.id} className={`reveal group ${i === 1 ? "lg:pt-16" : ""}`} style={{ transitionDelay: `${i * 150}ms` }}>
               <a href={href('rooms', room.id)} className="relative block aspect-[4/5] overflow-hidden rounded-[32px] sm:aspect-[5/4] lg:aspect-[4/5]">
                 <Img
                   photo={largest(room.photos)}

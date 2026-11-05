@@ -38,7 +38,9 @@ export default function GalleryPage() {
               {[{ id: ALL, label: 'All photos' }, ...galleryGroups].map((g) => (
                 <button
                   key={g.id}
-                  onClick={() => setFilter(g.id)}
+                  type="button"
+                  aria-pressed={filter === g.id}
+                  onClick={() => { setFilter(g.id); setIndex(null); }}
                   className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition-all duration-300 ${
                     filter === g.id ? 'bg-ink-900 text-sand-50' : 'bg-sand-100 text-ink-700 hover:bg-sand-200'
                   }`}

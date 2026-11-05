@@ -2,16 +2,15 @@ import { useState } from 'react';
 import { Car, Plane, Ship, Sun } from 'lucide-react';
 import Img from '@/components/Img';
 import { places } from '@/data/content';
+import { media } from '@/data/media';
 import { useReveal } from '@/hooks/useReveal';
 
 const travel = [
   { icon: Plane, label: 'Airport', value: '3 min' },
   { icon: Ship, label: 'Myrina port', value: '20 min' },
-  { icon: Car, label: 'Farthest beach', value: '~20 min' },
+  { icon: Car, label: 'Island drives', value: 'Explore' },
   { icon: Sun, label: 'Athos sunset', value: 'Myrina' },
 ];
-
-const photos = Array.from(new Set(places.map((p) => p.photo)));
 
 export default function Island() {
   const ref = useReveal<HTMLElement>();
@@ -23,7 +22,7 @@ export default function Island() {
         <div className="max-w-3xl">
           <p className="section-num reveal text-aegean-500">05 &nbsp;/&nbsp; Lemnos Island</p>
           <h2 className="reveal mt-8 text-5xl text-ink-900 sm:text-6xl lg:text-7xl">
-            The whole island, <em className="text-aegean-500">twenty minutes away</em>
+            Explore Lemnos <em className="text-aegean-500">from central Varos</em>
           </h2>
           <p className="reveal mt-6 text-ink-500">
             Varos lies at the very centre of Lemnos. Here are a few of our favourite places, all an easy drive from your door.
@@ -68,19 +67,9 @@ export default function Island() {
           </ol>
 
           <div className="reveal relative hidden overflow-hidden rounded-[32px] lg:block">
-            {photos.map((photo) => (
-              <Img
-                key={photo}
-                photo={photo}
-                sizes="50vw"
-                alt="Lemnos coastline"
-                className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ${
-                  places[hover].photo === photo ? 'scale-100 opacity-100' : 'scale-110 opacity-0'
-                }`}
-              />
-            ))}
+            <Img photo={media.home.island} sizes="50vw" alt="Scenic view of Lemnos island" className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-900/80 to-transparent p-8">
-              <p className="eyebrow text-sand-200">Now viewing</p>
+              <p className="eyebrow text-sand-200">Explore nearby · illustrative island photo</p>
               <p className="mt-2 font-serif text-3xl text-sand-50">{places[hover].name}</p>
             </div>
           </div>

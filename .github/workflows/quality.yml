@@ -1,0 +1,28 @@
+name: Tsikari quality checks
+on:
+  push:
+    branches:
+      - feat/editorial-redesign-booking-reliability
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: TypeScript check
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Date regression tests
+        run: npm run test
+      - name: Production build
+        run: npm run build
