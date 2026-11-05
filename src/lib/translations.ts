@@ -367,6 +367,42 @@ export const greek = new Map<string,string>([
   ["All rights reserved.", "Με επιφύλαξη παντός δικαιώματος."],
   ["Contact us for availability and rates. Every request is answered personally.", "Επικοινωνήστε μαζί μας για διαθεσιμότητα και τιμές. Απαντούμε προσωπικά σε κάθε αίτημα."],
   ["No 24-hour reception or restaurant", "Δεν διαθέτουμε 24ωρη υποδοχή ή εστιατόριο"],
+  ["Up to","Έως"],
+  ["guests","άτομα"],
+  ["guest","επισκέπτης"],
+  ["photos","φωτογραφίες"],
+  ["Photo gallery","Συλλογή φωτογραφιών"],
+  ["Close photo gallery","Κλείσιμο συλλογής φωτογραφιών"],
+  ["Previous photo","Προηγούμενη φωτογραφία"],
+  ["Next photo","Επόμενη φωτογραφία"],
+  ["Open navigation","Άνοιγμα μενού"],
+  ["Close navigation","Κλείσιμο μενού"],
+  ["Site navigation","Πλοήγηση ιστοτόπου"],
+  ["Main navigation","Κεντρική πλοήγηση"],
+  ["Footer navigation","Σύνδεσμοι υποσέλιδου"],
+  ["Loading","Φόρτωση"],
+  ["Check availability","Έλεγχος διαθεσιμότητας"],
+  ["Thank you,","Ευχαριστούμε,"],
+  ["Your request for","Το αίτημά σας για"],
+  ["night","διανυκτέρευση"],
+  ["nights","διανυκτερεύσεις"],
+  ["has reached us. We will reply to","έχει καταχωριστεί. Θα απαντήσουμε στο"],
+  ["with availability and rates shortly.","σύντομα με διαθεσιμότητα και τιμές."],
+  ["More than a century on the square","Περισσότερο από έναν αιώνα στην πλατεία"],
+  ["Personal housekeeper, Maria","Η Μαρία φροντίζει προσωπικά τη διαμονή σας"],
+  ["Direct booking","Απευθείας κράτηση"],
+  ["Book now","Αίτημα διαθεσιμότητας"],
+  ["No preference","Χωρίς προτίμηση"],
+  ["your@example.com","email@example.com"],
+  ["Send an enquiry","Στείλτε αίτημα"],
+  ["Your stay awaits","Η διαμονή σας σας περιμένει"],
+  ["Ready to","Έτοιμοι να"],
+  ["book?","κάνετε κράτηση;"],
+  ["Where history feels like home.","Εκεί όπου η ιστορία συναντά τη ζεστασιά του σπιτιού."],
+  ["Studio for 2-3 Persons","Στούντιο 2–3 ατόμων"],
+  ["Studio for 2-4 Persons","Στούντιο 2–4 ατόμων"],
+  ["Family Studio for 2-4 Persons","Οικογενειακό στούντιο 2–4 ατόμων"],
+  ["Hotel Quality, B&B Warmth","Ποιότητα ξενοδοχείου, ζεστασιά σπιτιού"],
 ]);
 
 export function translate(value: string): string {
@@ -378,5 +414,9 @@ export function translate(value: string): string {
   if (nights) return nights[1] + (nights[1] === '1' ? ' διανυκτέρευση' : ' διανυκτερεύσεις');
   const upTo = /^Up to (\d+) guests$/.exec(value);
   if (upTo) return 'Έως ' + upTo[1] + ' άτομα';
+  const matched = /^Open (.+) photos$/.exec(value);
+  if (matched) return 'Άνοιγμα φωτογραφιών: ' + (greek.get(matched[1]) ?? matched[1]);
+  const image = /^View photo: (.+)$/.exec(value);
+  if (image) return 'Προβολή φωτογραφίας: ' + (greek.get(image[1]) ?? image[1]);
   return value;
 }
