@@ -1,6 +1,6 @@
 import { useEffect, useRef, type MouseEvent } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { imageSources } from '@/components/Img';
+import { imageSources } from '@/lib/imageSources';
 
 export type Photo = { photo: string; alt: string };
 

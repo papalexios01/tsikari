@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, Check, Images, Users } from 'lucide-react';
 import BookCta from '@/components/BookCta';
-import Img, { imageSources } from '@/components/Img';
+import Img from '@/components/Img';
 import Lightbox from '@/components/Lightbox';
 import PageHeader from '@/components/PageHeader';
 import { rooms, type Room } from '@/data/content';
@@ -11,9 +11,10 @@ import { href } from '@/lib/router';
 
 function RoomSection({ room, flip }: { room: Room; flip: boolean }) {
   const [index, setIndex] = useState<number | null>(null);
-  const photos = [...room.photos]
-    .sort((a, b) => (imageSources(b).width ?? 0) - (imageSources(a).width ?? 0) || room.photos.indexOf(a) - room.photos.indexOf(b))
-    .map((photo, i) => ({ photo, alt: `${room.name}, photo ${i + 1}` }));
+  // Lead with a representative room photo, not whichever file happens to have most pixels.
+  const primary = room.id === 'studio-2-4' ? '/images/rooms/2-4/31.jpg' : '/images/rooms/2-3/17.jpg';
+  const ordered = [primary, ...room.photos.filter((photo) => photo !== primary)];
+  const photos = ordered.map((photo, i) => ({ photo, alt: `${room.name}, photo ${i + 1}` }));
   const [cover, ...rest] = photos;
 
   return (
