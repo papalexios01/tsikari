@@ -9,20 +9,25 @@ export function dateToEpochDay(value: string): number | null {
   const day = Number(match[3]);
   const timestamp = Date.UTC(year, month - 1, day);
   const parsed = new Date(timestamp);
-  if (parsed.getUTCFullYear() !== year || parsed.getUTCMonth() + 1 !== month || parsed.getUTCDate() !== day) return null;
+  if (
+    parsed.getUTCFullYear() !== year ||
+    parsed.getUTCMonth() + 1 !== month ||
+    parsed.getUTCDate() !== day
+  )
+    return null;
   return timestamp / MS_PER_DAY;
 }
 
 export function todayLocal(now: Date = new Date()): string {
-  const year = String(now.getFullYear()).padStart(4, '0');
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
+  const year = String(now.getFullYear()).padStart(4, "0");
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
 
 export function nextDay(value: string): string {
   const day = dateToEpochDay(value);
-  return day === null ? '' : new Date((day + 1) * MS_PER_DAY).toISOString().slice(0, 10);
+  return day === null ? "" : new Date((day + 1) * MS_PER_DAY).toISOString().slice(0, 10);
 }
 
 export function nightsBetween(checkIn: string, checkOut: string): number {
