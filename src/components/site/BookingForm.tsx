@@ -75,7 +75,7 @@ export function BookingForm({ prefill = {} }: { prefill?: BookingPrefill }) {
     let err: unknown = null;
     const hook =
       (import.meta.env["VITE_BOOKING_WEBHOOK_URL"] as string | undefined) ||
-      "https://script.google.com/macros/s/AKfycbzxWZQhx0jVtnzuBRuj1Howbz-w753oQncSvyUnj0-GyZhWgPAjwvPvd0s1E6qrulAf/exec";
+      "https://script.google.com/macros/s/AKfycbziMnXVcM6OUqNrvvIfBS9XjEMESD9wWVnIVtA-EVvUEr7Nf9B6xvXfgyltEsr7mNc/exec";
     if (hook) {
       try {
         // text/plain keeps this a "simple" request so Google Apps Script accepts it without CORS preflight
