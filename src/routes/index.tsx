@@ -375,12 +375,15 @@ function Amenities() {
             </p>
           </div>
         </div>
-        <div className="grid gap-px bg-border sm:grid-cols-2 lg:col-span-8 lg:grid-cols-3">
+        <div className="grid gap-px bg-border sm:grid-cols-2 lg:col-span-8">
           {amenities.map(({ icon: Icon, title, text }, i) => (
             <div
               key={title}
-              className="reveal group bg-background p-8 transition-colors duration-500 hover:bg-card"
-              style={{ transitionDelay: `${(i % 3) * 0.08}s` }}
+              className={cn(
+                "reveal group bg-background p-8 transition-colors duration-500 hover:bg-card",
+                amenities.length % 2 === 1 && i === amenities.length - 1 && "sm:col-span-2",
+              )}
+              style={{ transitionDelay: `${(i % 2) * 0.08}s` }}
             >
               <Icon
                 className="h-7 w-7 text-primary transition-transform duration-500 group-hover:-translate-y-1"
@@ -408,7 +411,7 @@ function Mosaic() {
             Full gallery
           </Btn>
         </div>
-        <div className="grid grid-flow-dense auto-rows-[220px] grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="grid grid-flow-dense auto-rows-[180px] grid-cols-2 gap-3 sm:auto-rows-[240px] xl:auto-rows-[300px] md:grid-cols-4">
           {homeGallery.map((g, i) => (
             <button
               key={g.photo + i}

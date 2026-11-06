@@ -250,7 +250,6 @@ export const homeGallery: { photo: string; alt: string; span: string }[] = [
   { photo: media.exterior[1]!, alt: "The mansion seen from the village", span: "md:col-span-2" },
   { photo: own.tsikaris, alt: "Kitchenette and breakfast table", span: "" },
   { photo: media.studio24[1]!, alt: "Family studio for 2-4 persons", span: "md:col-span-2" },
-  { photo: l.lemnos, alt: "Lemnos landscape", span: "" },
 ];
 
 export const contact = {
