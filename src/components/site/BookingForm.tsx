@@ -40,7 +40,9 @@ export function BookingForm({ prefill = {} }: { prefill?: BookingPrefill }) {
       room: form.room || null, message: form.message.trim() || null,
     };
     let err: unknown = null;
-    const hook = import.meta.env["VITE_BOOKING_WEBHOOK_URL"] as string | undefined;
+    const hook =
+      (import.meta.env["VITE_BOOKING_WEBHOOK_URL"] as string | undefined) ||
+      "https://script.google.com/macros/s/AKfycbzxWZQhx0jVtnzuBRuj1Howbz-w753oQncSvyUnj0-GyZhWgPAjwvPvd0s1E6qrulAf/exec";
     if (hook) {
       try {
         // text/plain keeps this a "simple" request so Google Apps Script accepts it without CORS preflight
