@@ -263,6 +263,8 @@ export const greek = new Map<string, string>([
   ["Studio 2-3 Persons", "Στούντιο 2–3 ατόμων"],
   ["Family Studio 2-4", "Οικογενειακό στούντιο 2–4"],
   ["Lemnos", "Λήμνος"],
+  ["Restoration", "Αναπαλαίωση"],
+  ["Then & now — the mansion before and after restoration", "Τότε & τώρα — το αρχοντικό πριν και μετά την αναπαλαίωση"],
   ["Moments", "Στιγμές"],
   ["Inside", "Μέσα στο"],
   ["Archontiko Tsikari", "Αρχοντικό Τσικάρη"],

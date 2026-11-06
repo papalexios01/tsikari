@@ -65,7 +65,7 @@ function About() {
         title="A family house"
         accent="since 1901"
         lead="The story of Archontiko Tsikari, and the way we welcome guests today."
-        photo={media.about.family}
+        photo={media.home.facade}
       />
       <section className="py-28 lg:py-40">
         <div className="mx-auto grid max-w-7xl gap-16 px-6 lg:grid-cols-12 lg:px-10">
@@ -78,19 +78,18 @@ function About() {
               We are not a large hotel and we don't want to be. We look after a handful of guests at
               a time, with care and attention that only a family-run house can offer.
             </p>
-            <div className="reveal mt-12 grid grid-cols-2 gap-4">
-              <Img
-                photo={media.about.portraitA}
-                alt="Archontiko Tsikari detail"
-                sizes="(min-width:1024px) 20vw, 50vw"
-                className="aspect-[3/4] w-full object-cover shadow-soft"
-              />
+            <figure className="reveal mt-12">
               <Img
                 photo={media.about.portraitB}
-                alt="Archontiko Tsikari interior"
-                className="mt-14 aspect-[3/4] w-full object-cover shadow-soft"
+                alt="Archontiko Tsikari before and after its restoration"
+                sizes="(min-width:1024px) 34vw, 100vw"
+                className="h-auto w-full shadow-soft"
               />
-            </div>
+              <figcaption className="mt-4 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                <span className="h-px w-8 bg-primary" />
+                Then &amp; now — the mansion before and after restoration
+              </figcaption>
+            </figure>
           </div>
           <div className="grid gap-px self-start bg-border sm:grid-cols-2 lg:col-span-7">
             {philosophy.map(({ icon: Icon, title, text }, i) => (
@@ -117,10 +116,10 @@ function About() {
                 More than a century on the square
               </h2>
               <Img
-                photo={media.about.lemnos}
+                photo={media.about.family}
                 sizes="(min-width:1024px) 40vw, 100vw"
-                alt="Lemnos landscape"
-                className="reveal mt-12 aspect-[4/5] w-full object-cover"
+                alt="The Tsikaris family, early 20th century"
+                className="reveal mt-12 h-auto w-full grayscale-[30%]"
               />
             </div>
           </div>

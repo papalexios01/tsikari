@@ -39,13 +39,13 @@ export const galleryGroups: GalleryGroup[] = [
   { id: "studio23", label: "Studio 2-3 Persons", photos: media.studio23 },
   { id: "studio24", label: "Family Studio 2-4", photos: media.studio24 },
   {
-    id: "lemnos",
-    label: "Lemnos",
-    photos: [media.home.island, media.about.lemnos, media.about.portraitA, media.about.portraitB],
+    id: "restoration",
+    label: "Restoration",
+    photos: [media.about.portraitB, media.about.lemnos],
   },
   {
     id: "moments",
     label: "Moments",
-    photos: [media.home.amenities, media.home.tsikaris, media.about.family],
+    photos: [media.home.island, media.home.amenities, media.home.tsikaris, media.about.family],
   },
 ];
