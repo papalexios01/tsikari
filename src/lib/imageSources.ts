@@ -9,7 +9,7 @@ export function imageSources(photo: string) {
   if (!m || !Array.isArray(m.s) || !m.s.length) return { src: photo, width: undefined, height: undefined, color: undefined, srcSet: undefined, preview: undefined };
   const sizes=[...m.s].sort((a,b)=>a-b);
   return {
-    src: variant(photo,sizes[sizes.length-1]),
+    src: variant(photo,sizes[sizes.length-1]!),
     srcSet: sizes.map(w=>variant(photo,w) + ' ' + w + 'w').join(', '),
     width: m.w, height: m.h, color: m.c, preview: m.p,
   };

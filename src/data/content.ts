@@ -15,7 +15,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { media } from '@/data/media';
-import type { Route } from '@/lib/router';
+type Route = string;
 
 const own = media.home;
 
@@ -53,7 +53,7 @@ export const features: Feature[] = [
     tab: 'Amenities',
     title: 'Five studios, each with its own quiet',
     lead: 'Earth tones, hand-picked objects and windows that frame the village square.',
-    image: media.gallery[0],
+    image: media.gallery[0]!,
     body: [
       'Five self-contained studios share the old mansion, every one styled with pieces picked by hand and a view across the village rooftops. The restoration pairs time-worn island craftsmanship with clean modern lines: unmistakably Greek, never old-fashioned.',
       'You sleep on natural COCO-MAT mattresses under soft linen, surrounded by warm, earthy colours. With a kitchenette and a roomy table of your own, dinner in can be just as special as dinner out.',
@@ -132,11 +132,11 @@ export const places: Place[] = [
 
 export const homeGallery: { photo: string; alt: string; span: string }[] = [
   { photo: own.exterior, alt: 'Archontiko Tsikari exterior with the 1907 drinking fountain on Varos square', span: 'md:col-span-2 md:row-span-2' },
-  { photo: media.entrance[0], alt: 'Entrance of Archontiko Tsikari', span: 'md:row-span-2' },
-  { photo: media.gallery[0], alt: 'Studio with twin beds, robes and towels', span: '' },
-  { photo: media.exterior[1], alt: 'The mansion seen from the village', span: 'md:col-span-2' },
+  { photo: media.entrance[0]!, alt: 'Entrance of Archontiko Tsikari', span: 'md:row-span-2' },
+  { photo: media.gallery[0]!, alt: 'Studio with twin beds, robes and towels', span: '' },
+  { photo: media.exterior[1]!, alt: 'The mansion seen from the village', span: 'md:col-span-2' },
   { photo: own.tsikaris, alt: 'Kitchenette and breakfast table', span: '' },
-  { photo: media.studio24[1], alt: 'Family studio for 2-4 persons', span: 'md:col-span-2' },
+  { photo: media.studio24[1]!, alt: 'Family studio for 2-4 persons', span: 'md:col-span-2' },
   { photo: l.lemnos, alt: 'Lemnos landscape', span: '' },
 ];
 

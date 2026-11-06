@@ -437,8 +437,8 @@ export function translate(value: string): string {
   const upTo = /^Up to (\d+) guests$/.exec(value);
   if (upTo) return 'Έως ' + upTo[1] + ' άτομα';
   const matched = /^Open (.+) photos$/.exec(value);
-  if (matched) return 'Άνοιγμα φωτογραφιών: ' + (greek.get(matched[1]) ?? matched[1]);
+  if (matched) return 'Άνοιγμα φωτογραφιών: ' + (greek.get(matched[1]!) ?? matched[1]!);
   const image = /^View photo: (.+)$/.exec(value);
-  if (image) return 'Προβολή φωτογραφίας: ' + (greek.get(image[1]) ?? image[1]);
+  if (image) return 'Προβολή φωτογραφίας: ' + (greek.get(image[1]!) ?? image[1]!);
   return value;
 }
